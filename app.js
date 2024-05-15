@@ -16,9 +16,9 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Plants nursery");
-});
+// routes
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/items", itemsRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
