@@ -10,7 +10,7 @@ const ItemSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      maxlength: 100,
+      maxlength: 200,
       required: [true, "Please enter item description"],
     },
     price: {
