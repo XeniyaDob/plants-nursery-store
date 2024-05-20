@@ -34,7 +34,11 @@ app.use(express.json());
 // use packages
 app.use(helmet());
 app.use(cors());
-app.use(xss());//This package has been deprecated, todo: find alternative
+app.use(xss());
+
+app.get("/", (req, res) => {
+  res.send("Plants store API");
+});
 
 // routes
 app.use("/api/v1/auth", authRouter);
