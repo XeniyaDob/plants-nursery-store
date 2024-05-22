@@ -16,7 +16,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://zero6-jobs-api-uoed.onrender.com/api/v1
+  - url: https://xeniya-dob-plants-nursery-store.onrender.com/api/v1
 tags:
 - name: Auth
   description: ''
