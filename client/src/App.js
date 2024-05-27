@@ -1,22 +1,13 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import Box from "@mui/material/Box";
+import Register from "./pages/Register/Register";
 
 function App() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("/routeTest")
-      .then((response) => {
-        setData(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data", error);
-      });
-  }, []);
-
-  return <div> {JSON.stringify(data)}</div>;
+  return (
+    <Box>
+      <Register />
+    </Box>
+  );
 }
 
 export default App;
