@@ -41,6 +41,10 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
+app.get("/routeTest", (req, res) => {
+  res.status(200).json({ message: "testing route is good" });
+});
+
 app.get("/", (req, res) => {
   res.send('<h1>Plants API</h1><a href="/api-docs">Swagger Docs</a>');
 });
