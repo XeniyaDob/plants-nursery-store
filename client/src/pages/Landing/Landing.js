@@ -11,7 +11,7 @@ export default function Landing() {
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
         blanditiis tenetur
       </Typography>
-      <Link href="#" underline="none">
+      <Link href="/items" underline="none">
         Explore our plants
       </Link>
     </Box>
