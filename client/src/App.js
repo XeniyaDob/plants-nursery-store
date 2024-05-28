@@ -1,12 +1,14 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Register from "./pages/Register/Register";
+import { Routes, Route } from "react-router-dom";
+import PublicLayout from "./components/Layout/PublicLayout";
 
 function App() {
   return (
-    <Box>
-      <Register />
-    </Box>
+    <>
+      <Routes>
+        <Route path="/" element={<PublicLayout />}></Route>
+      </Routes>
+    </>
   );
 }
 
