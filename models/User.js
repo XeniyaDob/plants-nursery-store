@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide password"],
     minlength: 6,
   },
+  is_admin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 UserSchema.pre("save", async function () {
