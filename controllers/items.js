@@ -3,9 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const { NotFoundError, BadRequestError } = require("../errors");
 
 const getAllItems = async (req, res) => {
-  const items = await Item.find({ createdBy: req.user.userId }).sort(
-    "createdAt"
-  );
+  const items = await Item.find({}).sort("createdAt"); //All plants available to any user
   res.status(StatusCodes.OK).json({ items, count: items.length });
 };
 
