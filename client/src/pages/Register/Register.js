@@ -11,10 +11,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -37,6 +40,7 @@ export default function Register() {
           JSON.stringify(response.data.user)
         );
         localStorage.setItem("plantAppToken", response.data.token);
+        navigate("/items");
       })
       .catch((error) => {
         if (error.response.status === 500) {
