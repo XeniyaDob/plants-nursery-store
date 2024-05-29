@@ -24,14 +24,10 @@ export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    // console.log({
-    //   name: formData.get("name"),
-    //   email: formData.get("email"),
-    //   password: formData.get("password"),
-    // });
+
     const data = Object.fromEntries(formData.entries());
     axios
-      .post("/api/v1/auth/register", data, {
+      .post("/api/v1/auth/login", data, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
@@ -70,7 +66,7 @@ export default function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Log in
           </Typography>
           <Box
             component="form"
@@ -78,18 +74,6 @@ export default function Register() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="name"
-                  required
-                  fullWidth
-                  id="name"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   required
@@ -120,12 +104,12 @@ export default function Register() {
               variant="contained"
               color="success"
               sx={{ mt: 3, mb: 2 }}>
-              Sign Up
+              Log in
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Log in
+                <Link href="/register" variant="body2">
+                  First time here? Create account
                 </Link>
                 <Typography variant="body2" color="text.secondary">
                   "Plants Nursery Store" Built-in 2024
