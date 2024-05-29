@@ -1,17 +1,18 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Container from "@mui/material/Container";
-import ButtonAppBarPublic from "../ButtonAppBar/ButtonAppBarPublic";
+import ButtonAppBarPrivate from "../ButtonAppBar/ButtonAppBarPrivate";
 
-const PublicLayout = ({ children }) => {
+const PrivateLayout = ({ children }) => {
   return (
-    <>
-      <ButtonAppBarPublic />
+    <div>
+      <ButtonAppBarPrivate />
       <Container>
         <Outlet />
         <main>{children}</main>
       </Container>
-    </>
+    </div>
   );
 };
-export default PublicLayout;
+
+export default PrivateLayout;
