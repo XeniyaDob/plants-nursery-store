@@ -36,7 +36,7 @@ export default function Register() {
           JSON.stringify(response.data.user)
         );
         localStorage.setItem("plantAppToken", response.data.token);
-        navigate("/items");
+        navigate("/dashboard");
       })
       .catch((error) => {
         if (error.response.status === 500) {
