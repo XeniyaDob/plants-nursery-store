@@ -18,9 +18,11 @@ function App() {
           <Route exact path="login" element={<Login />} />
           <Route path="items" element={<AllPlants />} />
         </Route>
-        <Route path="/dashboard" element={<PrivateLayout />}>
+        <Route path="/admin" element={<PrivateLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="items" element={<AllPlants />} />
+        </Route>
+        <Route path="/user" element={<PrivateLayout />}>
+          <Route index element={<AllPlants />} />
         </Route>
       </Routes>
     </>

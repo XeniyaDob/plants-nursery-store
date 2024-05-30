@@ -30,6 +30,7 @@ export default function Register() {
     //   password: formData.get("password"),
     // });
     const data = Object.fromEntries(formData.entries());
+    let is_admin;
     axios
       .post("/api/v1/auth/register", data, {
         headers: { "Content-Type": "application/json" },
@@ -40,7 +41,12 @@ export default function Register() {
           JSON.stringify(response.data.user)
         );
         localStorage.setItem("plantAppToken", response.data.token);
-        navigate("/dashboard");
+        is_admin = response.data.user.is_admin;
+
+        // Navigate based on the user's role
+        is_admin
+          ? navigate("/admin") // Navigate to the admin page
+          : navigate("/user"); // Navigate to the user page
       })
       .catch((error) => {
         if (error.response.status === 500) {
