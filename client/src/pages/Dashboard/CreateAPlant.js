@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -90,12 +90,19 @@ export default function CreateAPlant() {
             flexDirection: "column",
             alignItems: "center",
           }}>
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Create a plant
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+
+              alignItems: "center",
+            }}>
+            <Avatar sx={{ m: 1, backgroundColor: "skyblue" }}>
+              <SpaOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Create a plant
+            </Typography>
+          </Box>
           <Box
             component="form"
             noValidate
