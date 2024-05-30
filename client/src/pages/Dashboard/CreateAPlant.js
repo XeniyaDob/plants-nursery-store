@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import MenuItem from "@mui/material/MenuItem";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -16,6 +17,38 @@ const defaultTheme = createTheme();
 export default function CreateAPlant() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const options = [
+    //TODO: add icons
+    {
+      value: "trees",
+    },
+    {
+      value: "shrubs",
+    },
+    {
+      value: "herbs",
+    },
+    {
+      value: "annuals",
+    },
+    {
+      value: "perennials",
+    },
+    {
+      value: "succulents",
+    },
+
+    {
+      value: "ferns",
+    },
+    {
+      value: "vines",
+    },
+    {
+      value: "others",
+    },
+  ];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -69,16 +102,35 @@ export default function CreateAPlant() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
+                  autoComplete="plant-name"
                   name="name"
                   required
                   fullWidth
                   id="name"
                   label="Plant Name"
+                  variant="filled"
+                  color="success"
                   autoFocus
                 />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="filled-select-type"
+                  select
+                  label="Select"
+                  defaultValue="trees"
+                  name="type"
+                  helperText="Please select your plant type"
+                  color="success"
+                  variant="filled">
+                  {options.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.value}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </Grid>
 
               <Grid item xs={12}>
@@ -90,6 +142,8 @@ export default function CreateAPlant() {
                   type="price"
                   id="price"
                   autoComplete="price"
+                  variant="filled"
+                  color="success"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -100,6 +154,8 @@ export default function CreateAPlant() {
                   label="Description"
                   name="description"
                   autoComplete="description"
+                  variant="filled"
+                  color="success"
                 />
               </Grid>
               <Grid item xs={12}></Grid>
@@ -107,7 +163,6 @@ export default function CreateAPlant() {
             {error && <Typography color="error">{errorMessage}</Typography>}
             <Button
               type="submit"
-              fullWidth
               variant="contained"
               color="success"
               sx={{ mt: 3, mb: 2 }}>
