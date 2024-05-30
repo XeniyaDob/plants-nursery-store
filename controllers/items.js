@@ -9,11 +9,10 @@ const getAllItems = async (req, res) => {
 
 const getItem = async (req, res) => {
   const {
-    user: { userId },
     params: { id: itemId },
   } = req;
 
-  const item = await Item.findOne({ _id: itemId, createdBy: userId });
+  const item = await Item.findOne({ _id: itemId });
 
   if (!item) {
     throw new NotFoundError(`No plant item with id ${itemId}`);

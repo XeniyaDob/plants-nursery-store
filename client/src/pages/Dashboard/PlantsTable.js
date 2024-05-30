@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,7 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 export default function PlantsTable({ allItems }) {
-  console.log(allItems);
+  const navigate = useNavigate();
+
+  const handleRowClick = (rowId) => {
+    navigate(`/admin/items/${rowId}`); // Navigate to a new page based on the row ID
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="simple table">
@@ -25,7 +30,8 @@ export default function PlantsTable({ allItems }) {
           {allItems.map((row) => (
             <TableRow
               key={row._id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              onClick={() => handleRowClick(row._id)}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>

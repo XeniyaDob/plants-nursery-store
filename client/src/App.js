@@ -7,6 +7,7 @@ import AllPlants from "./pages/AllPlants/AllPlants";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import AdminSinglePlant from "./pages/SinglePlant/AdminSinglePlant";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </Route>
         <Route path="/admin" element={<PrivateLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="items/:id" element={<AdminSinglePlant />} />
         </Route>
         <Route path="/user" element={<PrivateLayout />}>
           <Route index element={<AllPlants />} />
