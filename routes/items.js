@@ -13,7 +13,7 @@ const {
 router.route("/").get(getAllItems);
 router.route("/:id").get(getItem);
 
-router.route("/").post(createItem); // Only admin can POST, PATCH, and DELETE items
+router.route("/").post(auth, authorizeAdmin, createItem);
 router
   .route("/:id")
   .delete(auth, authorizeAdmin, deleteItem)

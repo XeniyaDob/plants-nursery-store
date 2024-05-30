@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import PlantsTable from "./PlantsTable";
+import CreateAPlant from "./CreateAPlant";
 
 export default function Dashboard() {
   const [allItems, setAllItems] = useState([]);
@@ -19,6 +20,7 @@ export default function Dashboard() {
   return (
     <Box sx={{ mt: "5rem" }}>
       <PlantsTable allItems={allItems} />
+      <CreateAPlant />
     </Box>
   );
 }
