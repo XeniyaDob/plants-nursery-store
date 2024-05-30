@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography";
 export default function AdminSinglePlant() {
   let params = useParams();
   const [item, setItem] = useState(null);
-  console.log(item);
   useEffect(() => {
     axios
       .get(`/api/v1/items/${params.id}`)
@@ -25,20 +24,19 @@ export default function AdminSinglePlant() {
 
   return (
     <Card sx={{ maxWidth: 500, mt: "5rem" }}>
-      <CardMedia sx={{ height: 140 }} title="green iguana" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {item.name}
+          {item?.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {item.description}
+          {item?.description}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: "1rem" }}>
-          Price ${item.price}
+          Price ${item?.price}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: "1rem" }}>
           Created at{" "}
-          {new Date(item.createdAt).toLocaleDateString("en-US", {
+          {new Date(item?.createdAt).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
