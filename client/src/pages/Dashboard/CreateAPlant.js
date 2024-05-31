@@ -15,7 +15,7 @@ import { options } from "../../components/PlantTypeOptions/PlantTypeOptions";
 
 const defaultTheme = createTheme();
 
-export default function CreateAPlant() {
+export default function CreateAPlant({ onClose }) {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -35,6 +35,7 @@ export default function CreateAPlant() {
       })
       .then((response) => {
         setSuccessMessage("Item created successfully!");
+        onClose();
       })
       .catch((error) => {
         if (error.response.status === 500) {
