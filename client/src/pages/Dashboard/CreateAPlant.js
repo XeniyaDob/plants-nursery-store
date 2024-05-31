@@ -18,6 +18,7 @@ const defaultTheme = createTheme();
 export default function CreateAPlant() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -33,7 +34,7 @@ export default function CreateAPlant() {
         },
       })
       .then((response) => {
-        console.log(response, "Item created successfully!");
+        setSuccessMessage("Item created successfully!");
       })
       .catch((error) => {
         if (error.response.status === 500) {
@@ -137,6 +138,11 @@ export default function CreateAPlant() {
               <Grid item xs={12}></Grid>
             </Grid>
             {error && <Typography color="error">{errorMessage}</Typography>}
+            {successMessage && (
+              <Box>
+                <Typography>{successMessage}</Typography>
+              </Box>
+            )}
             <Button
               type="submit"
               variant="contained"
