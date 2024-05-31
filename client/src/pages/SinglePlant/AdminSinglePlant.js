@@ -27,6 +27,9 @@ export default function AdminSinglePlant() {
   let params = useParams();
   const [item, setItem] = useState(null);
   const [open, setOpen] = React.useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -46,6 +49,32 @@ export default function AdminSinglePlant() {
         console.error("Error fetching item:", error);
       });
   }, []);
+
+  // Add a delete function
+  const handleDelete = () => {
+    const token = localStorage.getItem("plantAppToken");
+    axios
+      .delete(`/api/v1/items/${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        setSuccessMessage("Item deleted successfully!");
+      })
+      .catch((error) => {
+        if (error.response.status === 500) {
+          setError(true);
+          setErrorMessage(
+            `${error.response.statusText}, please try again later!`
+          );
+          return;
+        }
+        setError(true);
+        setErrorMessage(error.response.data.msg);
+      });
+  };
 
   return (
     <Box>
@@ -82,16 +111,23 @@ export default function AdminSinglePlant() {
           <Modal
             open={open}
             onClose={handleClose}
-            onHide={reload}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description">
             <Box sx={style}>
               <UpdatePlant item={item} onClose={handleCloseModal} />
             </Box>
           </Modal>
-          <Button size="small">Delete</Button>
+          <Button size="small" onClick={handleDelete}>
+            Delete
+          </Button>
         </CardActions>
       </Card>
+      {error && <Typography color="error">{errorMessage}</Typography>}
+      {successMessage && (
+        <Box>
+          <Typography>{successMessage}</Typography>
+        </Box>
+      )}
     </Box>
   );
 }
