@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,12 +13,28 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { options } from "../../components/PlantTypeOptions/PlantTypeOptions";
-
 const defaultTheme = createTheme();
 
-export default function CreateAPlant() {
+export default function UpdatePlant({ item }) {
+  let params = useParams();
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    type: "",
+    price: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    // Populate formData state with item values
+    setFormData({
+      name: item?.name || "",
+      type: item?.type || "",
+      price: item?.price || "",
+      description: item?.description || "",
+    });
+  }, [item]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,14 +43,14 @@ export default function CreateAPlant() {
     const data = Object.fromEntries(formData.entries());
     const token = localStorage.getItem("plantAppToken");
     axios
-      .post("/api/v1/items", data, {
+      .patch(`/api/v1/items/${params.id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        console.log(response, "Item created successfully!");
+        console.log(response, "Item updated successfully!");
       })
       .catch((error) => {
         if (error.response.status === 500) {
@@ -62,14 +79,13 @@ export default function CreateAPlant() {
           <Box
             sx={{
               display: "flex",
-
               alignItems: "center",
             }}>
             <Avatar sx={{ m: 1, backgroundColor: "skyblue" }}>
               <SpaOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Create a plant
+              Update a plant
             </Typography>
           </Box>
           <Box
@@ -85,10 +101,14 @@ export default function CreateAPlant() {
                   required
                   fullWidth
                   id="name"
-                  label="Plant Name"
+                  label=""
                   variant="filled"
                   color="success"
                   autoFocus
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -96,11 +116,15 @@ export default function CreateAPlant() {
                   id="filled-select-type"
                   select
                   label="Select"
-                  defaultValue="trees"
+                  defaultValue={item?.type}
                   name="type"
                   helperText="Please select your plant type"
                   color="success"
-                  variant="filled">
+                  variant="filled"
+                  value={formData.type}
+                  onChange={(e) =>
+                    setFormData({ ...formData, type: e.target.value })
+                  }>
                   {options.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.value}
@@ -114,12 +138,16 @@ export default function CreateAPlant() {
                   required
                   fullWidth
                   name="price"
-                  label="Price"
+                  label=""
                   type="price"
                   id="price"
                   autoComplete="price"
                   variant="filled"
                   color="success"
+                  value={formData.price}
+                  onChange={(e) =>
+                    setFormData({ ...formData, price: e.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -127,11 +155,15 @@ export default function CreateAPlant() {
                   required
                   fullWidth
                   id="description"
-                  label="Description"
+                  label=""
                   name="description"
                   autoComplete="description"
                   variant="filled"
                   color="success"
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                 />
               </Grid>
               <Grid item xs={12}></Grid>
@@ -142,7 +174,7 @@ export default function CreateAPlant() {
               variant="contained"
               color="success"
               sx={{ mt: 3, mb: 2 }}>
-              Create
+              Update
             </Button>
           </Box>
         </Box>

@@ -7,6 +7,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Box } from "@mui/material";
+import UpdatePlant from "./UpdatePlant";
 
 export default function AdminSinglePlant() {
   let params = useParams();
@@ -23,30 +25,39 @@ export default function AdminSinglePlant() {
   }, []);
 
   return (
-    <Card sx={{ maxWidth: 500, mt: "5rem" }}>
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {item?.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {item?.description}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: "1rem" }}>
-          Price ${item?.price}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: "1rem" }}>
-          Created at{" "}
-          {new Date(item?.createdAt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Update</Button>
-        <Button size="small">Delete</Button>
-      </CardActions>
-    </Card>
+    <Box>
+      <Card sx={{ maxWidth: 500, mt: "5rem" }}>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {item?.name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {item?.description}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mt: "1rem" }}>
+            Price ${item?.price}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mt: "1rem" }}>
+            Created at{" "}
+            {new Date(item?.createdAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">Update</Button>
+          <Button size="small">Delete</Button>
+        </CardActions>
+      </Card>
+      <UpdatePlant item={item} />
+    </Box>
   );
 }
