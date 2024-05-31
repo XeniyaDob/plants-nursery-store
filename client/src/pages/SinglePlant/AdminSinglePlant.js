@@ -32,7 +32,10 @@ export default function AdminSinglePlant() {
   const handleClose = () => setOpen(false);
   const handleCloseModal = () => {
     setOpen(false); // Close the modal
+    reload();
   };
+  const reload = () => window.location.reload();
+
   useEffect(() => {
     axios
       .get(`/api/v1/items/${params.id}`)
@@ -79,6 +82,7 @@ export default function AdminSinglePlant() {
           <Modal
             open={open}
             onClose={handleClose}
+            onHide={reload}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description">
             <Box sx={style}>
