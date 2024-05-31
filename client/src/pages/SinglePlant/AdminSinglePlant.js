@@ -9,10 +9,30 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import UpdatePlant from "./UpdatePlant";
+import Modal from "@mui/material/Modal";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function AdminSinglePlant() {
   let params = useParams();
   const [item, setItem] = useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false); // Close the modal
+  };
   useEffect(() => {
     axios
       .get(`/api/v1/items/${params.id}`)
@@ -53,11 +73,21 @@ export default function AdminSinglePlant() {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Update</Button>
+          <Button size="small" onClick={handleOpen}>
+            Update
+          </Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description">
+            <Box sx={style}>
+              <UpdatePlant item={item} onClose={handleCloseModal} />
+            </Box>
+          </Modal>
           <Button size="small">Delete</Button>
         </CardActions>
       </Card>
-      <UpdatePlant item={item} />
     </Box>
   );
 }

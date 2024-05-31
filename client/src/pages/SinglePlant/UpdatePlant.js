@@ -15,7 +15,7 @@ import axios from "axios";
 import { options } from "../../components/PlantTypeOptions/PlantTypeOptions";
 const defaultTheme = createTheme();
 
-export default function UpdatePlant({ item }) {
+export default function UpdatePlant({ item, onClose }) {
   let params = useParams();
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -51,6 +51,7 @@ export default function UpdatePlant({ item }) {
       })
       .then((response) => {
         console.log(response, "Item updated successfully!");
+        onClose();
       })
       .catch((error) => {
         if (error.response.status === 500) {
