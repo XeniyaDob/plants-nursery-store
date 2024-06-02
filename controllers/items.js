@@ -23,6 +23,11 @@ const getItem = async (req, res) => {
 const createItem = async (req, res) => {
   req.body.createdBy = req.user.userId;
 
+  if (req.file) {
+    req.body.image = req.file.filename;
+    req.body.imagePath = req.file.path;
+  }
+
   const item = await Item.create(req.body);
 
   res.status(StatusCodes.CREATED).json({ item });

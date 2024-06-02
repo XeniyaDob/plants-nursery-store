@@ -24,24 +24,17 @@ const style = {
 };
 
 export default function AdminSinglePlant() {
-  let params = useParams();
   const [item, setItem] = useState(null);
   const [open, setOpen] = React.useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleCloseModal = () => {
-    setOpen(false); // Close the modal
-    reload();
-  };
-  const reload = () => window.location.reload();
-
+  let params = useParams();
+  const url = `/api/v1/items/${params.id}`;
   useEffect(() => {
     axios
-      .get(`/api/v1/items/${params.id}`)
+      .get(url)
       .then((response) => {
         setItem(response.data.item);
       })
@@ -75,53 +68,70 @@ export default function AdminSinglePlant() {
         setErrorMessage(error.response.data.msg);
       });
   };
-
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false); // Close the modal
+    reload();
+  };
+  const reload = () => window.location.reload();
   return (
     <Box>
-      <Card sx={{ maxWidth: 500, mt: "5rem" }}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {item?.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {item?.description}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ mt: "1rem" }}>
-            Price ${item?.price}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ mt: "1rem" }}>
-            Created at{" "}
-            {new Date(item?.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small" onClick={handleOpen}>
-            Update
-          </Button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description">
-            <Box sx={style}>
-              <UpdatePlant item={item} onClose={handleCloseModal} />
-            </Box>
-          </Modal>
-          <Button size="small" onClick={handleDelete}>
-            Delete
-          </Button>
-        </CardActions>
-      </Card>
+      {item ? (
+        <Card sx={{ maxWidth: 500, mt: "5rem" }}>
+          {item.image ? (
+            <CardMedia
+              sx={{ height: 400 }}
+              image={require(`../../images/${item.image}`)}
+              title={item.name}
+            />
+          ) : null}
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {item.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {item.description}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mt: "1rem" }}>
+              Price ${item.price}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mt: "1rem" }}>
+              Created at{" "}
+              {new Date(item.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={handleOpen}>
+              Update
+            </Button>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description">
+              <Box sx={style}>
+                <UpdatePlant item={item} onClose={handleCloseModal} />
+              </Box>
+            </Modal>
+            <Button size="small" onClick={handleDelete}>
+              Delete
+            </Button>
+          </CardActions>
+        </Card>
+      ) : (
+        <Typography>Loading...</Typography>
+      )}
       {error && <Typography color="error">{errorMessage}</Typography>}
       {successMessage && (
         <Box>

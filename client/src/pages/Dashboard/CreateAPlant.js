@@ -16,13 +16,19 @@ import { options } from "../../components/PlantTypeOptions/PlantTypeOptions";
 const defaultTheme = createTheme();
 
 export default function CreateAPlant({ onClose }) {
+  const [image, setImage] = useState(null);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  const onInputChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    formData.append("image", image);
 
     const data = Object.fromEntries(formData.entries());
     const token = localStorage.getItem("plantAppToken");
@@ -30,12 +36,12 @@ export default function CreateAPlant({ onClose }) {
       .post("/api/v1/items", data, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         setSuccessMessage("Item created successfully!");
-        onClose();
+        //onClose();
       })
       .catch((error) => {
         if (error.response.status === 500) {
@@ -64,7 +70,6 @@ export default function CreateAPlant({ onClose }) {
           <Box
             sx={{
               display: "flex",
-
               alignItems: "center",
             }}>
             <Avatar sx={{ m: 1, backgroundColor: "skyblue" }}>
@@ -123,6 +128,9 @@ export default function CreateAPlant({ onClose }) {
                   variant="filled"
                   color="success"
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <input type="file" accept="image/*" onChange={onInputChange} />
               </Grid>
               <Grid item xs={12}>
                 <TextField

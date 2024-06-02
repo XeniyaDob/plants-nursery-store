@@ -36,6 +36,15 @@ const ItemSchema = new mongoose.Schema(
     },
     orderNumber: {
       type: Number,
+      required: false,
+    },
+    image: {
+      type: String,
+      required: false,
+    },
+    imagePath: {
+      type: String,
+      required: false,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
