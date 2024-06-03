@@ -19,7 +19,13 @@ export default function SinglePlant({ item }) {
               image={require(`../../images/${item.image}`)}
               title={item.name}
             />
-          ) : null}
+          ) : (
+            <CardMedia
+              sx={{ height: 400 }}
+              image={require(`../../images/no-image.jpeg`)}
+              title="no image is available"
+            />
+          )}
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {item.name}
