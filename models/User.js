@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide password"],
     minlength: 6,
   },
+  is_admin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 UserSchema.pre("save", async function () {
@@ -32,7 +36,7 @@ UserSchema.pre("save", async function () {
 
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.name },
+    { userId: this._id, name: this.name, is_admin: this.is_admin },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_LIFETIME,

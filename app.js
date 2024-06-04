@@ -17,8 +17,6 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 //connect DB
 const connectDB = require("./db/connect");
 
-const authenticateUser = require("./middleware/authentication");
-
 //routers
 const authRouter = require("./routes/auth");
 const itemsRouter = require("./routes/items");
@@ -41,6 +39,10 @@ app.use(helmet());
 app.use(cors());
 app.use(xss());
 
+app.get("/routeTest", (req, res) => {
+  res.status(200).json({ message: "testing route is good" });
+});
+
 app.get("/", (req, res) => {
   res.send('<h1>Plants API</h1><a href="/api-docs">Swagger Docs</a>');
 });
@@ -48,7 +50,8 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // routes
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/items", authenticateUser, itemsRouter);
+app.use("/api/v1/items", itemsRouter);
+
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
