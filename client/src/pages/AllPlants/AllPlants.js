@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SinglePlantCard from "../../components/SinglePlantCard/SinglePlantCard";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 
 export default function AllPlants() {
   const [allItems, setAllItems] = useState([]);
@@ -25,6 +26,11 @@ export default function AllPlants() {
       });
   }, []);
 
+  const handleAddToCart = (itemId) => {
+    // add item to cart
+    console.log("Adding item to cart:", itemId);
+  };
+
   if (loading) {
     return (
       <Box sx={{ width: "100%", m: "1rem 0 5rem 0" }}>
@@ -39,14 +45,20 @@ export default function AllPlants() {
       <Grid container spacing={2}>
         {allItems.map((item) => (
           <Grid item xs={12} md={4} key={item._id}>
-            <SinglePlantCard
-              key={item._id}
-              image={item.image}
-              name={item.name}
-              description={item.description}
-              price={item.price}
-              createdAt={item.createdAt}
-            />
+            <Box>
+              <SinglePlantCard
+                key={item._id}
+                image={item.image}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                createdAt={item.createdAt}
+              />
+
+              <Button onClick={() => handleAddToCart(item._id)}>
+                Add to cart
+              </Button>
+            </Box>
           </Grid>
         ))}
       </Grid>
