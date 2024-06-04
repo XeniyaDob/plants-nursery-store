@@ -8,16 +8,16 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 
-export default function SinglePlant({ item }) {
+export default function SinglePlant(props) {
   return (
     <Box>
-      {item ? (
+      {props ? (
         <Card sx={{ maxWidth: 500, mt: "5rem" }}>
-          {item.image ? (
+          {props.image ? (
             <CardMedia
               sx={{ height: 400 }}
-              image={require(`../../images/${item.image}`)}
-              title={item.name}
+              image={require(`../../images/${props.image}`)}
+              title={props.name}
             />
           ) : (
             <CardMedia
@@ -28,23 +28,23 @@ export default function SinglePlant({ item }) {
           )}
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {item.name}
+              {props.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {item.description}
+              {props.description}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
               sx={{ mt: "1rem" }}>
-              Price ${item.price}
+              Price ${props.price}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
               sx={{ mt: "1rem" }}>
               Created at{" "}
-              {new Date(item.createdAt).toLocaleDateString("en-US", {
+              {new Date(props.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
