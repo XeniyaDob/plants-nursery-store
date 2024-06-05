@@ -4,7 +4,9 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import Badge from "@mui/material/Badge";
+import Link from "@mui/material/Link";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 
 export default function ButtonAppBarPrivate() {
   let navigate = useNavigate();
@@ -19,18 +21,36 @@ export default function ButtonAppBarPrivate() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Plants Nursery
-          </Typography>
-          {currentUser && (
-            <Typography variant="h6" component="div">
-              {currentUser.name}
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}>
+          <Link href="/" underline="none" color="inherit">
+            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              Plants Nursery
             </Typography>
+          </Link>
+
+          {currentUser && (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {currentUser.is_admin ? null : (
+                <Badge badgeContent={10} color="error">
+                  <ShoppingBagOutlinedIcon />
+                </Badge>
+              )}
+
+              <Typography variant="h6" sx={{ m: "0 2rem 0 2rem" }}>
+                {currentUser.name}
+              </Typography>
+              <Link
+                underline="none"
+                sx={{ cursor: "pointer" }}
+                onClick={handleLogout}>
+                Logout
+              </Link>
+            </Box>
           )}
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
         </Toolbar>
       </AppBar>
     </Box>
