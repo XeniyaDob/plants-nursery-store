@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,8 +8,10 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 
 export default function AllPlants() {
+  const navigate = useNavigate();
   const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(true); // Add a loading state
+  const currentUser = JSON.parse(localStorage.getItem("plantAppUser"));
 
   useEffect(() => {
     axios
@@ -27,8 +30,16 @@ export default function AllPlants() {
   }, []);
 
   const handleAddToCart = (itemId) => {
-    // add item to cart
-    console.log("Adding item to cart:", itemId);
+    // Check if user is logged in
+    if (currentUser) {
+      // User is logged in, navigate to cart
+      console.log("Adding item to cart:", itemId);
+      navigate("/cart");
+    } else {
+      // User is not logged in, navigate to register
+      console.log("User not logged in. Redirecting to register page.");
+      navigate("/register");
+    }
   };
 
   if (loading) {
