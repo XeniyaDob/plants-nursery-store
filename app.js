@@ -20,6 +20,8 @@ const connectDB = require("./db/connect");
 //routers
 const authRouter = require("./routes/auth");
 const itemsRouter = require("./routes/items");
+const cartRouter = require("./routes/cart");
+
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -51,7 +53,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/items", itemsRouter);
-
+app.use("/api/v1/cart", cartRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
