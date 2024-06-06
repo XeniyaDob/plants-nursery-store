@@ -12,7 +12,7 @@ export default function AllPlants() {
   const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(true); // Add a loading state
   const currentUser = JSON.parse(localStorage.getItem("plantAppUser"));
-
+  const token = localStorage.getItem("plantAppToken");
   useEffect(() => {
     axios
       .get("/api/v1/items")
@@ -29,12 +29,23 @@ export default function AllPlants() {
       });
   }, []);
 
-  const handleAddToCart = (itemId) => {
-    // Check if user is logged in
+  const handleAddToCart = async (itemId, currentUser, token) => {
+    const data = { itemId: itemId, currentUser: currentUser };
+    console.log(data, "!!!!");
     if (currentUser) {
-      // User is logged in, navigate to cart
-      console.log("Adding item to cart:", itemId);
-      navigate("/cart");
+      try {
+        await axios.post(`/api/v1/cart`, data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        console.log("Item added to cart successfully:", itemId);
+
+        // navigate("/cart"); // Navigate to the cart page to see the update
+      } catch (error) {
+        console.error("Failed to add item to cart:", error);
+      }
     } else {
       // User is not logged in, navigate to register
       console.log("User not logged in. Redirecting to register page.");
@@ -66,7 +77,8 @@ export default function AllPlants() {
                 createdAt={item.createdAt}
               />
 
-              <Button onClick={() => handleAddToCart(item._id)}>
+              <Button
+                onClick={() => handleAddToCart(item._id, currentUser, token)}>
                 Add to cart
               </Button>
             </Box>

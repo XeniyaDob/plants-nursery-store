@@ -46,7 +46,7 @@ export default function Register() {
         // Navigate based on the user's role
         is_admin
           ? navigate("/admin") // Navigate to the admin page
-          : navigate("/user"); // Navigate to the user page
+          : navigate("/user/items"); // Navigate to the user page
       })
       .catch((error) => {
         if (error.response.status === 500) {

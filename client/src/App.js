@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AdminSinglePlant from "./pages/SinglePlant/AdminSinglePlant";
 import NotFoundPage from "./pages/NotFound/NotFound";
+import Cart from "./pages/Cart/Cart";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
           <Route path="items/:id" element={<AdminSinglePlant />} />
         </Route>
         <Route path="/user" element={<PrivateLayout />}>
-          <Route index element={<AllPlants />} />
+          <Route path="items" element={<AllPlants />} />
+          <Route path="cart" element={<Cart />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
