@@ -1,11 +1,13 @@
-const Item = require("../models/Item");
 const Cart = require("../models/Cart");
 const { StatusCodes } = require("http-status-codes");
-const { NotFoundError, BadRequestError } = require("../errors");
 
 const addToCartItem = async (req, res) => {
-  console.log(req.body, "!!!");
-  res.status(200).json({ message: "Added to cart" });
+  req.body.addedByUser = req.user.userId;
+  req.body.item = req.body.itemId;
+
+  const cartItem = await Cart.create(req.body);
+
+  res.status(StatusCodes.CREATED).json({ cartItem });
 };
 
 module.exports = {

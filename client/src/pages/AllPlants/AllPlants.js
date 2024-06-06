@@ -30,8 +30,8 @@ export default function AllPlants() {
   }, []);
 
   const handleAddToCart = async (itemId, currentUser, token) => {
-    const data = { itemId: itemId, currentUser: currentUser };
-    console.log(data, "!!!!");
+    const data = { itemId: itemId };
+
     if (currentUser) {
       try {
         await axios.post(`/api/v1/cart`, data, {
