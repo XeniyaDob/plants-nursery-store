@@ -17,7 +17,9 @@ export default function ButtonAppBarPrivate() {
     localStorage.removeItem("plantAppUser");
     navigate("/", { replace: true });
   };
-
+  const handleCartClick = () => {
+    navigate("/user/cart"); // Navigate to the cart page
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
@@ -36,7 +38,12 @@ export default function ButtonAppBarPrivate() {
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {currentUser.is_admin ? null : (
                 <Badge badgeContent={10} color="error">
-                  <ShoppingBagOutlinedIcon />
+                  <Link
+                    underline="none"
+                    sx={{ cursor: "pointer" }}
+                    onClick={handleCartClick}>
+                    <ShoppingBagOutlinedIcon />
+                  </Link>
                 </Badge>
               )}
 
