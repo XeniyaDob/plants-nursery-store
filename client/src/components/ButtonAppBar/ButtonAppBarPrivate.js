@@ -36,7 +36,13 @@ export default function ButtonAppBarPrivate() {
 
           {currentUser && (
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              {currentUser.is_admin ? null : (
+              {currentUser.is_admin ? (
+                <Link href="/admin" underline="none" color="inherit">
+                  <Typography variant="h6" sx={{ m: "0 2rem 0 2rem" }}>
+                    dashboard
+                  </Typography>
+                </Link>
+              ) : (
                 <Badge badgeContent={10} color="error">
                   <Link
                     underline="none"
