@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import SinglePlantCard from "../../components/SinglePlantCard/SinglePlantCard";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-} from "@mui/material";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const CartPage = () => {
   const [allCartItems, setAllCartItems] = useState([]);
-  const [loading, setLoading] = useState(true); // Add a loading state
-  const currentUser = JSON.parse(localStorage.getItem("plantAppUser"));
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("plantAppToken");
 
   console.log(allCartItems);
@@ -39,6 +32,7 @@ const CartPage = () => {
         setLoading(false);
       });
   }, []);
+
   if (loading) {
     return (
       <Box sx={{ width: "100%", m: "1rem 0 5rem 0" }}>
@@ -47,9 +41,37 @@ const CartPage = () => {
     );
   }
   return (
-    <Box sx={{ width: "100%", m: "1rem 0 5rem 0" }}>
-      <Typography variant="h2">Cart</Typography>
-    </Box>
+    <Container sx={{ mt: "5rem" }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Your Shopping Cart
+      </Typography>
+      <Grid container spacing={3} sx={{ mt: "5rem" }}>
+        {allCartItems.map((cartItem) => (
+          <Grid item xs={12} key={cartItem._id}>
+            <Paper
+              style={{
+                padding: "16px",
+                display: "flex",
+                alignItems: "center",
+              }}>
+              <Typography variant="h6" style={{ flexGrow: 1 }}>
+                {cartItem.item.name}
+              </Typography>
+              <Typography variant="body1" style={{ marginRight: "16px" }}>
+                ${cartItem.item.price.toFixed(2)}
+              </Typography>
+
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
+      <Button variant="contained" color="success" style={{ marginTop: "16px" }}>
+        Checkout
+      </Button>
+    </Container>
   );
 };
 

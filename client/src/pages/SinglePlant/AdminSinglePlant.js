@@ -41,7 +41,7 @@ export default function AdminSinglePlant() {
       .catch((error) => {
         console.error("Error fetching item:", error);
       });
-  });
+  }, []);
 
   // Add a delete function
   const handleDelete = () => {
