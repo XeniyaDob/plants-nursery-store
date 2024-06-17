@@ -13,7 +13,6 @@ const CartPage = () => {
   const [allCartItems, setAllCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("plantAppToken");
-
   console.log(allCartItems);
   useEffect(() => {
     axios
@@ -31,7 +30,7 @@ const CartPage = () => {
         console.error("Error fetching items:", error);
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (

@@ -30,18 +30,18 @@ export default function AdminSinglePlant() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  let params = useParams();
-  const url = `/api/v1/items/${params.id}`;
-  useEffect(() => {
-    axios
-      .get(url)
-      .then((response) => {
-        setItem(response.data.item);
-      })
-      .catch((error) => {
-        console.error("Error fetching item:", error);
-      });
-  }, []);
+let params = useParams();
+const url = `/api/v1/items/${params.id}`;
+useEffect(() => {
+  axios
+    .get(url)
+    .then((response) => {
+      setItem(response.data.item);
+    })
+    .catch((error) => {
+      console.error("Error fetching item:", error);
+    });
+}, [url]);
 
   // Add a delete function
   const handleDelete = () => {
