@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import UpdatePlant from "./UpdatePlant";
 import Modal from "@mui/material/Modal";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const style = {
   position: "absolute",
@@ -28,20 +30,24 @@ export default function AdminSinglePlant() {
   const [open, setOpen] = React.useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
-let params = useParams();
-const url = `/api/v1/items/${params.id}`;
-useEffect(() => {
-  axios
-    .get(url)
-    .then((response) => {
-      setItem(response.data.item);
-    })
-    .catch((error) => {
-      console.error("Error fetching item:", error);
-    });
-}, [url]);
+  // Success deletion snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  let params = useParams();
+  const url = `/api/v1/items/${params.id}`;
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((response) => {
+        setItem(response.data.item);
+      })
+      .catch((error) => {
+        console.error("Error fetching item:", error);
+      });
+  }, [url]);
 
   // Add a delete function
   const handleDelete = () => {
@@ -54,7 +60,9 @@ useEffect(() => {
         },
       })
       .then((response) => {
-        setSuccessMessage("Item deleted successfully!");
+        setSnackbarMessage("Item deleted successfully!");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
       })
       .catch((error) => {
         if (error.response.status === 500) {
@@ -133,10 +141,23 @@ useEffect(() => {
         <Typography>Loading...</Typography>
       )}
       {error && <Typography color="error">{errorMessage}</Typography>}
-      {successMessage && (
-        <Box>
-          <Typography>{successMessage}</Typography>
-        </Box>
+      {snackbarOpen && (
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={() => setSnackbarOpen(false)}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          sx={{ height: "100%" }}>
+          <Alert
+            onClose={() => setSnackbarOpen(false)}
+            severity={snackbarSeverity}
+            sx={{ width: "100%" }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       )}
     </Box>
   );
