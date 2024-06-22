@@ -91,12 +91,12 @@ useEffect(() => {
               {item.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {item.description}
+              {item.description} --- {item.type}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ mt: "1rem" }}>
+              sx={{ mt: "1rem", color: "green" }}>
               Price ${item.price}
             </Typography>
             <Typography

@@ -41,7 +41,7 @@ export default function CreateAPlant({ onClose }) {
       })
       .then((response) => {
         setSuccessMessage("Item created successfully!");
-        //onClose();
+        onClose();
       })
       .catch((error) => {
         if (error.response.status === 500) {
