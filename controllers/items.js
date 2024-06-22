@@ -3,7 +3,15 @@ const { StatusCodes } = require("http-status-codes");
 const { NotFoundError, BadRequestError } = require("../errors");
 
 const getAllItems = async (req, res) => {
-  const items = await Item.find({}).sort("createdAt"); //All plants available to any user
+  const { name, type } = req.query;
+  const queryObject = {};
+  if (name) {
+    queryObject.name = { $regex: name, $options: "i" };
+  }
+  if (type) {
+    queryObject.type = type;
+  }
+  const items = await Item.find(queryObject).sort("createdAt"); //All plants available to any user
   res.status(StatusCodes.OK).json({ items, count: items.length });
 };
 

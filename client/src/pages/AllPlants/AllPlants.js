@@ -6,28 +6,51 @@ import Typography from "@mui/material/Typography";
 import SinglePlantCard from "../../components/SinglePlantCard/SinglePlantCard";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 export default function AllPlants() {
   const navigate = useNavigate();
   const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(true); // Add a loading state
+  const [searchName, setSearchName] = useState("");
+  const [searchType, setSearchType] = useState("");
   const currentUser = JSON.parse(localStorage.getItem("plantAppUser"));
   const token = localStorage.getItem("plantAppToken");
   useEffect(() => {
-    axios
-      .get("/api/v1/items")
-      .then((response) => {
+    const fetchItems = async () => {
+      let url = "/api/v1/items";
+      if (searchName || searchType) {
+        url += `?name=${encodeURIComponent(searchName)}&type=${searchType}`;
+      }
+
+      try {
+        const response = await axios.get(url);
         const sortedItems = response.data.items.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setAllItems(sortedItems);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching items:", error);
         setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchItems();
+  }, [searchName, searchType]); // Re-fetch items whenever search params change
+
+  const handleSearchChange = (e, field) => {
+    switch (field) {
+      case "name":
+        setSearchName(e.target.value);
+        break;
+      case "type":
+        setSearchType(e.target.value);
+        break;
+      default:
+        break;
+    }
+  };
 
   const handleAddToCart = async (itemId, currentUser, token) => {
     const data = { itemId: itemId };
@@ -64,6 +87,16 @@ export default function AllPlants() {
   return (
     <Box sx={{ width: "100%", m: "1rem 0 5rem 0" }}>
       <Typography variant="h2">Explore our plants</Typography>
+      <TextField
+        label="Search by Name"
+        value={searchName}
+        onChange={(e) => handleSearchChange(e, "name")}
+      />
+      <TextField
+        label="Filter by Type"
+        value={searchType}
+        onChange={(e) => handleSearchChange(e, "type")}
+      />
       <Grid container spacing={2}>
         {allItems.map((item) => (
           <Grid item xs={12} md={4} key={item._id}>
