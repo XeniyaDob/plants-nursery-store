@@ -43,7 +43,7 @@ export default function ButtonAppBarPrivate() {
                   </Typography>
                 </Link>
               ) : (
-                <Badge badgeContent={10} color="error">
+                <Badge badgeContent={0} color="error">
                   <Link
                     underline="none"
                     sx={{ cursor: "pointer" }}

@@ -7,6 +7,10 @@ import SinglePlantCard from "../../components/SinglePlantCard/SinglePlantCard";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select"; // Import Select
+import MenuItem from "@mui/material/MenuItem"; // Import MenuItem
+import { options } from "../../components/PlantTypeOptions/PlantTypeOptions";
+import FormHelperText from "@mui/material/FormHelperText";
 
 export default function AllPlants() {
   const navigate = useNavigate();
@@ -45,13 +49,16 @@ export default function AllPlants() {
         setSearchName(e.target.value);
         break;
       case "type":
-        setSearchType(e.target.value);
+        setSearchType(e.target.value === "" ? "" : e.target.value); // Reset searchType if "Show All Plants" is selected
         break;
       default:
         break;
     }
   };
-
+  const clearFilters = () => {
+    setSearchName("");
+    setSearchType("");
+  };
   const handleAddToCart = async (itemId, currentUser, token) => {
     const data = { itemId: itemId };
 
@@ -87,16 +94,46 @@ export default function AllPlants() {
   return (
     <Box sx={{ width: "100%", m: "1rem 0 5rem 0" }}>
       <Typography variant="h2">Explore our plants</Typography>
-      <TextField
-        label="Search by Name"
-        value={searchName}
-        onChange={(e) => handleSearchChange(e, "name")}
-      />
-      <TextField
-        label="Filter by Type"
-        value={searchType}
-        onChange={(e) => handleSearchChange(e, "type")}
-      />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+        }}>
+        <Box sx={{ display: "flex" }}>
+          <Box>
+            <FormHelperText>Search by Name</FormHelperText>
+            <TextField
+              value={searchName}
+              onChange={(e) => handleSearchChange(e, "name")}
+            />
+          </Box>
+          <Box>
+            <FormHelperText>Filter by Type</FormHelperText>
+            <Select
+              labelId="simple-select-label"
+              id="simple-select"
+              value={searchType}
+              onChange={(e) => handleSearchChange(e, "type")}
+              label="Filter by Type"
+              sx={{ width: "10rem" }}>
+              <MenuItem value="">Show All Plants</MenuItem>
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.value}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+        </Box>
+
+        <Button
+          variant="outlined"
+          onClick={clearFilters}
+          sx={{ maxHeight: "3rem", color: "black" }}>
+          Clear All Filters
+        </Button>
+      </Box>
       <Grid container spacing={2}>
         {allItems.map((item) => (
           <Grid item xs={12} md={4} key={item._id}>
