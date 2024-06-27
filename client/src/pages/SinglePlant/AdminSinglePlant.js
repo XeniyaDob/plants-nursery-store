@@ -154,6 +154,7 @@ export default function AdminSinglePlant() {
           <Alert
             onClose={() => setSnackbarOpen(false)}
             severity={snackbarSeverity}
+            variant="filled"
             sx={{ width: "100%" }}>
             {snackbarMessage}
           </Alert>

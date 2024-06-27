@@ -11,6 +11,8 @@ import Select from "@mui/material/Select"; // Import Select
 import MenuItem from "@mui/material/MenuItem"; // Import MenuItem
 import { options } from "../../components/PlantTypeOptions/PlantTypeOptions";
 import FormHelperText from "@mui/material/FormHelperText";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function AllPlants() {
   const navigate = useNavigate();
@@ -18,6 +20,8 @@ export default function AllPlants() {
   const [loading, setLoading] = useState(true); // Add a loading state
   const [searchName, setSearchName] = useState("");
   const [searchType, setSearchType] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const currentUser = JSON.parse(localStorage.getItem("plantAppUser"));
   const token = localStorage.getItem("plantAppToken");
   useEffect(() => {
@@ -71,10 +75,12 @@ export default function AllPlants() {
           },
         });
         console.log("Item added to cart successfully:", itemId);
-
+        setSnackbarMessage("Item added to cart successfully!");
+        setSnackbarOpen(true); // Open the Snackbar
         // navigate("/cart"); // Navigate to the cart page to see the update
       } catch (error) {
         console.error("Failed to add item to cart:", error);
+        //Add Snackbar with Failed message
       }
     } else {
       // User is not logged in, navigate to register
@@ -134,6 +140,21 @@ export default function AllPlants() {
           Clear All Filters
         </Button>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}>
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity="success"
+          variant="filled">
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Grid container spacing={2}>
         {allItems.map((item) => (
           <Grid item xs={12} md={4} key={item._id}>
