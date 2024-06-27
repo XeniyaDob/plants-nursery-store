@@ -38,6 +38,15 @@ export default function Landing() {
             }}>
             Shop Now
           </Button>
+          <Button
+            variant="outlined"
+            href="https://xeniya-dob-plants-nursery-store.onrender.com/api-docs/" //OR http://localhost:3000/api-docs/
+            sx={{
+              color: "#fff",
+              borderColor: "#fff",
+            }}>
+            Swagger Docs
+          </Button>
         </Grid>
       </Grid>
     </Box>

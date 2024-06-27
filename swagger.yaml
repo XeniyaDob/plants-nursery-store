@@ -1,27 +1,12 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: Swagger Plant nursery store - OpenAPI 3.0
-  description: |-
-    This is a sample Plant Nursery Server based on the OpenAPI 3.0 specification.  You can find out more about
-    Swagger at [https://swagger.io](https://swagger.io). 
-
-  termsOfService: http://swagger.io/terms/
-  contact:
-    email: apiteam@swagger.io
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.11
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
+  title: Plants-API
+  description: "# \U0001F680 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## \U0001F516 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Tests\" tab**\n\nTests help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/b5f280a7-4b09-48ec-857f-0a7ed99d7ef8/U2NyZWVuc2hvdCAyMDIzLTAzLTI3IGF0IDkuNDcuMjggUE0ucG5n\">\n\n## \U0001F4AA Pro tips\n\n- Use folders to group related requests and organize the collection.\n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) in \"Tests\" to verify if the API works as expected and execute workflows.\n    \n\n## \U0001F4A1Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)"
+  contact: {}
+  version: '1.0'
 servers:
-  - url: https://xeniya-dob-plants-nursery-store.onrender.com/api/v1
-tags:
-- name: Auth
-  description: ''
-- name: Items
-  description: ''
+- url: https://xeniya-dob-plants-nursery-store.onrender.com/api/v1
+  variables: {}
 paths:
   /auth/register:
     post:
@@ -43,13 +28,13 @@ paths:
               allOf:
               - $ref: '#/components/schemas/RegisteruserRequest'
               - example:
-                  name: anna
-                  email: anna@gmail.com
-                  password: secretAnna
+                  name: peter
+                  email: peter2@gmail.com
+                  password: secret
             example:
-              name: anna
-              email: anna@gmail.com
-              password: secretAnna
+              name: peter
+              email: peter2@gmail.com
+              password: secret
         required: true
       responses:
         '200':
@@ -77,10 +62,10 @@ paths:
               allOf:
               - $ref: '#/components/schemas/LoginuserRequest'
               - example:
-                  email: anna@gmail.com
+                  email: bob@gmail.com
                   password: secret
             example:
-              email: anna@gmail.com
+              email: bob@gmail.com
               password: secret
         required: true
       responses:
@@ -92,9 +77,9 @@ paths:
   /items:
     post:
       tags:
-      - Items
-      summary: Create Single Item
-      operationId: CreateSingleItem
+      - Private
+      summary: Create a plant item
+      operationId: Createaplantitem
       parameters: []
       requestBody:
         description: ''
@@ -102,15 +87,17 @@ paths:
           application/json:
             schema:
               allOf:
-              - $ref: '#/components/schemas/CreateSingleItemRequest'
+              - $ref: '#/components/schemas/CreateaplantitemRequest'
               - example:
-                  name: Pine
-                  price: 3
-                  description: Lorem
+                  name: Magnolia
+                  price: 13
+                  type: trees
+                  description: Magnolias are spreading evergreen or deciduous trees or shrubs characterised by large fragrant flowers, which may be bowl-shaped or star-shaped, in shades of white, pink, purple, green, or yellow.
             example:
-              name: Pine
-              price: 3
-              description: Lorem
+              name: Magnolia
+              price: 13
+              type: trees
+              description: Magnolias are spreading evergreen or deciduous trees or shrubs characterised by large fragrant flowers, which may be bowl-shaped or star-shaped, in shades of white, pink, purple, green, or yellow.
         required: true
       responses:
         '200':
@@ -121,17 +108,16 @@ paths:
       - bearer: []
     get:
       tags:
-      - Items
-      summary: Get All Items
-      operationId: GetAllItems
+      - Public
+      summary: Get all plants
+      operationId: Getallplants
       parameters: []
       responses:
         '200':
           description: ''
           headers: {}
       deprecated: false
-      security:
-      - bearer: []
+      security: []
   /items/{id}:
     parameters:
       - in: path
@@ -140,25 +126,11 @@ paths:
           type: string
         required: true
         description: The item ID
-    get:
-      tags:
-      - Items
-      summary: Get Single Item
-      operationId: GetSingleItem
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security:
-      - bearer: []
-  
     patch:
       tags:
-      - Items
-      summary: Update Single Item
-      operationId: UpdateSingleItem
+      - Private
+      summary: Update a plant
+      operationId: Updateaplant
       parameters: []
       requestBody:
         description: ''
@@ -166,15 +138,15 @@ paths:
           application/json:
             schema:
               allOf:
-              - $ref: '#/components/schemas/UpdateSingleItemRequest'
+              - $ref: '#/components/schemas/UpdateaplantRequest'
               - example:
-                  name: Pine
-                  price: 3
-                  description: Lorem
+                  name: Red Apple
+                  price: 11
+                  description: Red
             example:
-              name: Pine
-              price: 3
-              description: Lorem
+              name: Red Apple
+              price: 11
+              description: Red
         required: true
       responses:
         '200':
@@ -183,12 +155,70 @@ paths:
       deprecated: false
       security:
       - bearer: []
-  
+    get:
+      tags:
+      - Public
+      summary: Get a plant
+      operationId: Getaplant
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /items/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The item ID
     delete:
       tags:
-      - Items
-      summary: Delete a Item
-      operationId: DeleteaItem
+      - Private
+      summary: Delete a plant
+      operationId: Deleteaplant
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /cart:
+    post:
+      tags:
+      - Private
+      summary: Add to cart
+      operationId: Addtocart
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AddtocartRequest'
+              - example:
+                  itemId: 665a006fd3a122fcb165495a
+            example:
+              itemId: 665a006fd3a122fcb165495a
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - Private
+      summary: GET all Cart Items
+      operationId: GETallCartItems
       parameters: []
       responses:
         '200':
@@ -214,9 +244,9 @@ components:
         password:
           type: string
       example:
-        name: anna
-        email: anna@gmail.com
-        password: secretAnna
+        name: peter
+        email: peter2@gmail.com
+        password: secret
     LoginuserRequest:
       title: LoginuserRequest
       required:
@@ -229,10 +259,33 @@ components:
         password:
           type: string
       example:
-        email: anna@gmail.com
+        email: bob@gmail.com
         password: secret
-    CreateSingleItemRequest:
-      title: CreateSingleItemRequest
+    CreateaplantitemRequest:
+      title: CreateaplantitemRequest
+      required:
+      - name
+      - price
+      - type
+      - description
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: integer
+          format: int32
+        type:
+          type: string
+        description:
+          type: string
+      example:
+        name: Magnolia
+        price: 13
+        type: trees
+        description: Magnolias are spreading evergreen or deciduous trees or shrubs characterised by large fragrant flowers, which may be bowl-shaped or star-shaped, in shades of white, pink, purple, green, or yellow.
+    UpdateaplantRequest:
+      title: UpdateaplantRequest
       required:
       - name
       - price
@@ -242,33 +295,34 @@ components:
         name:
           type: string
         price:
-          type: number
+          type: integer
+          format: int32
         description:
-          type: string          
+          type: string
       example:
-        name: Jasmine
-        price: 10
-        description: Lorem
-    UpdateSingleItemRequest:
-      title: UpdateSingleItemRequest
+        name: Red Apple
+        price: 11
+        description: Red
+    AddtocartRequest:
+      title: AddtocartRequest
       required:
-      - name
-      - price
-      - description
+      - itemId
       type: object
       properties:
-        name:
+        itemId:
           type: string
-        price:
-          type: number
-        description:
-          type: string          
       example:
-        name: Jasmine 2
-        price: 20
-        description: Lorem
+        itemId: 665a006fd3a122fcb165495a
   securitySchemes:
     bearer:
       type: http
       scheme: bearer
 security: []
+tags:
+
+- name: Auth
+  description: ''
+- name: Private
+  description: ''
+- name: Public
+  description: ''
