@@ -166,14 +166,7 @@ paths:
           headers: {}
       deprecated: false
       security: []
-  /items/{id}:
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: string
-        required: true
-        description: The item ID
+  
     delete:
       tags:
       - Private
